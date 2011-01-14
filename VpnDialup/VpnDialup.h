@@ -18,6 +18,18 @@
 
 namespace RUNSISI_HUST
 {
+	/*! \brief Get VPN dial up phone book full path file name.
+	* \param wszPath String address to receive path.
+	* \param size Buffer size of wszPath.
+	* \return ERROR_SUCCESS on success.
+	*/
+	LONG GetVpnPhoneBookPath(wchar_t wszPath[], int size);
+
+	/*! \brief Delete VPN dial up phone book file.
+	* \return ERROR_SUCCESS on success.
+	*/
+	LONG DeleteVpnPhoneBook();
+
 	/*! \brief Use this function to initialize a VPN entry.
 	* \param entry Output parameter to receive initialized RASENTRY.
 	* \param wszAddr VPN server IP / host name.

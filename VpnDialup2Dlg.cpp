@@ -5,6 +5,7 @@
 #include "VpnDialup2.h"
 #include "VpnDialup2Dlg.h"
 
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -43,6 +44,10 @@ public:
 // Implementation
 protected:
 	DECLARE_MESSAGE_MAP()
+private:
+	RUNSISI_HUST::CHyperLinkCtrl m_vendor;
+public:
+	virtual BOOL OnInitDialog();
 };
 
 CAboutDlg::CAboutDlg() : CDialog(CAboutDlg::IDD)
@@ -52,6 +57,7 @@ CAboutDlg::CAboutDlg() : CDialog(CAboutDlg::IDD)
 void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
+	DDX_Control(pDX, IDC_VENDOR, m_vendor);
 }
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialog)
@@ -73,6 +79,7 @@ void CVpnDialup2Dlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_CHECK1, m_quietModeCheckBox);
+	DDX_Control(pDX, IDC_BLOG, m_blog);
 }
 
 BEGIN_MESSAGE_MAP(CVpnDialup2Dlg, CDialog)
@@ -132,6 +139,10 @@ BOOL CVpnDialup2Dlg::OnInitDialog()
 	g_notify.uTimeout = 20;
 	StringCchCopyW(g_notify.szInfoTitle, 63, wszInfoTitle);
 	g_notify.dwInfoFlags = NIIF_INFO;
+
+	m_blog.SetURL(TEXT("http://www.cppblog.com/runsisi"));
+	m_blog.SetLinkCursor(AfxGetApp()->LoadCursor(IDC_CURSOR));
+	m_blog.CorrectLinkWidth();
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
@@ -284,4 +295,16 @@ LRESULT CVpnDialup2Dlg::OnVpnConnected(
 	}
 
 	return 0;
+}
+BOOL CAboutDlg::OnInitDialog()
+{
+	CDialog::OnInitDialog();
+
+	// TODO:  Add extra initialization here
+	m_vendor.SetURL(TEXT("http://www.pathtome.com"));
+	m_vendor.SetLinkCursor(AfxGetApp()->LoadCursor(IDC_CURSOR));
+	m_vendor.CorrectLinkWidth();
+
+	return TRUE;  // return TRUE unless you set the focus to a control
+	// EXCEPTION: OCX Property Pages should return FALSE
 }

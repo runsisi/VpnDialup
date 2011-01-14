@@ -7,9 +7,56 @@
 #pragma comment(lib,"strsafe.lib")
 #include "../Logging/Logging.h"
 #include "../Exception/Exception.h"
+#include <Shlwapi.h>
+#pragma comment(lib,"shlwapi.lib")
+
+#define RUNSISI_HUST_VPN_PHONE_BOOK_NAME \
+	L"RUNSISI_HUST_VpnPhoneBook.book"
 
 namespace RUNSISI_HUST
 {
+	LONG GetVpnPhoneBookPath(wchar_t wszPath[], int size)
+	{
+		LONG lRet = ERROR_SUCCESS;
+
+		wchar_t wszTempDir[MAX_PATH] = {0};
+		if (!GetTempPathW(MAX_PATH, wszTempDir))
+		{
+			lRet = GetLastError();
+			return lRet;
+		}
+		if (!PathAppendW(wszTempDir, RUNSISI_HUST_VPN_PHONE_BOOK_NAME))
+		{
+			lRet = ERROR_INVALID_PARAMETER;
+			return lRet;
+		}
+		HRESULT hr = StringCchCopyW(wszPath, size, wszTempDir);
+		if (FAILED(hr))
+		{
+			lRet = hr;
+		}
+
+		return lRet;
+	}
+
+	LONG DeleteVpnPhoneBook()
+	{
+		LONG lRet = ERROR_SUCCESS;
+
+		//Get phone book path.
+		wchar_t wszPhoneBook[MAX_PATH] = {0};
+		if (GetVpnPhoneBookPath(wszPhoneBook, MAX_PATH) == 
+			ERROR_SUCCESS)	//Failed or did not implemented.
+		{
+			if (!DeleteFileW(wszPhoneBook))
+			{
+				lRet = GetLastError();
+			}
+		}
+
+		return lRet;
+	}
+
 	LONG InitVpnEntry(RASENTRYW& entry, const wchar_t* wszAddr)
 	{
 		LONG lRet = ERROR_SUCCESS;
@@ -17,9 +64,7 @@ namespace RUNSISI_HUST
 		try
 		{
 			entry.dwSize = sizeof(entry);
-			entry.dwfOptions = //RASEO_SharedPhoneNumbers | 
-				//RASEO_IpHeaderCompression | 
-				RASEO_RemoteDefaultGateway | 
+			entry.dwfOptions = RASEO_RemoteDefaultGateway | 
 				RASEO_RequirePAP | 
 				RASEO_RequireCHAP | 
 				RASEO_RequireMsCHAP | 
@@ -94,9 +139,16 @@ namespace RUNSISI_HUST
 						dwRet);
 				}
 			}
+			//Get phone book path.
+			wchar_t wszPhoneBook[MAX_PATH] = {0};
+			if (GetVpnPhoneBookPath(wszPhoneBook, MAX_PATH) != 
+				ERROR_SUCCESS)	//Failed or did not implemented.
+			{
+				wszPhoneBook[0] = 0;
+			}
 			//Create.
-			dwRet = RasSetEntryPropertiesW(0, wszEntryName, 
-				&entry, entry.dwSize, 0, 0);
+			dwRet = RasSetEntryPropertiesW(wszPhoneBook[0] ? wszPhoneBook : 0, 
+				wszEntryName, &entry, entry.dwSize, 0, 0);
 			if (dwRet != ERROR_SUCCESS)
 			{
 				lRet = dwRet;
@@ -161,9 +213,18 @@ namespace RUNSISI_HUST
 				throw CRunsisiExceptionW(L"Failed to initialize RASDIALPARAMS "
 					L"member szPassword, code: %d.", hr);
 			}
+			//Get phone book path.
+			wchar_t wszPhoneBook[MAX_PATH] = {0};
+			if (GetVpnPhoneBookPath(wszPhoneBook, MAX_PATH) != 
+				ERROR_SUCCESS)	//Failed or did not implemented.
+			{
+				wszPhoneBook[0] = 0;
+			}
+			//Dial.
 			if (bQuiet)
 			{
-				DWORD dwRet = RasDialW(0, 0, &dialParams, 0, 0, &hVpnConn);
+				DWORD dwRet = RasDialW(0, wszPhoneBook[0] ? wszPhoneBook : 0, 
+					&dialParams, 0, 0, &hVpnConn);
 				lRet = dwRet;
 			}
 			else
@@ -178,7 +239,7 @@ namespace RUNSISI_HUST
 					throw CRunsisiExceptionW(L"Failed to copy entry name to "
 						L"stack char array, code: %d.", lRet);
 				}
-				BOOL bRet = RasDialDlgW(0, wszEntry, 0, &rasDialDlg);
+				BOOL bRet = RasDialDlgW(wszPhoneBook[0] ? wszPhoneBook : 0, wszEntry, 0, &rasDialDlg);
 				if (!bRet)	//Error.
 				{
 					lRet = ERROR_TIMEOUT;

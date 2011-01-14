@@ -3,7 +3,7 @@
 
 #pragma once
 #include "afxwin.h"
-
+#include "HyperLinkCtrl/HyperLinkCtrl.h"
 
 // CVpnDialup2Dlg dialog
 class CVpnDialup2Dlg : public CDialog
@@ -40,4 +40,6 @@ public:
 	afx_msg void OnBnClickedOk();
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg LRESULT OnVpnConnected(WPARAM wParam, LPARAM lParam);
+private:
+	RUNSISI_HUST::CHyperLinkCtrl m_blog;
 };

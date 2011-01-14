@@ -112,6 +112,7 @@ int CVpnDialup2App::ExitInstance()
 		DisconnectVpn(g_hRasConn);
 	}
 	DeleteVpnEntry();
+	DeleteVpnPhoneBook();
 
 	return CWinApp::ExitInstance();
 }

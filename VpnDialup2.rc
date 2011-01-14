@@ -77,10 +77,10 @@ CAPTION "About VpnDialup"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
-    LTEXT           "VpnDialup Version 1.0",IDC_STATIC,40,10,119,8,SS_NOPREFIX
-    LTEXT           "runsisi@HUST Copyright (C) 2011",IDC_STATIC,40,25,119,8
+    LTEXT           "VpnDialup Version 1.4",IDC_STATIC,40,10,119,8,SS_NOPREFIX
+    LTEXT           "runsisi@HUST Copyright (C) 2011",IDC_STATIC,40,23,119,8
     DEFPUSHBUTTON   "OK",IDOK,178,7,50,16,WS_GROUP
-    LTEXT           "http://www.pathtome.com/",IDC_STATIC,39,37,116,8
+    LTEXT           "加速服务提供商",IDC_VENDOR,40,36,57,8
 END
 
 IDD_VPNDIALUP2_DIALOG DIALOGEX 0, 0, 198, 68
@@ -94,6 +94,7 @@ BEGIN
     CONTROL         "静默模式",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,41,45,48,10
     LTEXT           "状态:",IDC_STATIC,91,45,20,8
     LTEXT           "未连接",IDC_STATUS,115,45,76,8
+    LTEXT           "访问我的博客",IDC_BLOG,7,5,49,8
 END
 
 
@@ -103,8 +104,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,0,3
- PRODUCTVERSION 1,0,0,3
+ FILEVERSION 1,0,0,4
+ PRODUCTVERSION 1,0,0,4
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -121,12 +122,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "runsisi@163.com"
             VALUE "FileDescription", "网络加速器"
-            VALUE "FileVersion", "1.0.0.3"
+            VALUE "FileVersion", "1.0.0.4"
             VALUE "InternalName", "VpnDialup.exe"
             VALUE "LegalCopyright", "runsisi@163.com All rights reserved."
             VALUE "OriginalFilename", "VpnDialup.exe"
             VALUE "ProductName", "网络加速器"
-            VALUE "ProductVersion", "1.0.0.3"
+            VALUE "ProductVersion", "1.0.0.4"
         END
     END
     BLOCK "VarFileInfo"
@@ -165,12 +166,19 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 //
+// Cursor
+//
+
+IDC_CURSOR              CURSOR                  "HyperLinkCtrl\\hand.cur"
+
+/////////////////////////////////////////////////////////////////////////////
+//
 // String Table
 //
 
 STRINGTABLE 
 BEGIN
-    IDS_ABOUTBOX            "&About VpnDialup2..."
+    IDS_ABOUTBOX            "&About VpnDialup..."
 END
 
 #endif    // Chinese (P.R.C.) resources
