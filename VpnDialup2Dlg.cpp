@@ -147,8 +147,6 @@ BOOL CVpnDialup2Dlg::OnInitDialog()
 	m_blog.SetLinkCursor(AfxGetApp()->LoadCursor(IDC_CURSOR));
 	m_blog.CorrectLinkWidth();
 
-	m_popupMenu.LoadMenu(IDR_POPUPMENU);
-
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
 
@@ -267,10 +265,17 @@ LRESULT CVpnDialup2Dlg::OnDialupTray(WPARAM wParam, LPARAM lParam)
 	}
 	else if (lParam == WM_RBUTTONUP)
 	{
+		SetForegroundWindow();
 		POINT pt = {0};
 		::GetCursorPos(&pt);
-		m_popupMenu.GetSubMenu(0)->TrackPopupMenu(
-			TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, this);
+		CMenu popupMenu;
+		popupMenu.LoadMenu(IDR_POPUPMENU);
+		popupMenu.GetSubMenu(0)->TrackPopupMenu(
+			TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_TOPALIGN, 
+			pt.x, pt.y, this);
+// 		popupMenu.GetSubMenu(0)->TrackPopupMenu(
+// 			TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_TOPALIGN, 
+// 			GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam), this);
 	}
 
 	return 0;
