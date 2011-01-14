@@ -42,4 +42,9 @@ public:
 	afx_msg LRESULT OnVpnConnected(WPARAM wParam, LPARAM lParam);
 private:
 	RUNSISI_HUST::CHyperLinkCtrl m_blog;
+	CMenu m_popupMenu;
+public:
+	afx_msg void OnPopupmenuExit();
+	afx_msg void OnPopupmenuMainwindow();
+	afx_msg void OnPopupmenuAbout();
 };

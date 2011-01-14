@@ -118,6 +118,9 @@ namespace RUNSISI_HUST
 			m_logwfstream.close();
 		}
 		
+		m_logwfstream << L"\t\tIF ANY ERROR OCCURRED, "
+			L"PLS CONTACT ME: runsisi@163.com.\n\n\n";
+		
 		return bOk;
 	}
 

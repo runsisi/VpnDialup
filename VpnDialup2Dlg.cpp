@@ -94,6 +94,9 @@ ON_REGISTERED_MESSAGE(WMU_DIALUPTRAY, &CVpnDialup2Dlg::OnDialupTray)
 ON_BN_CLICKED(IDOK, &CVpnDialup2Dlg::OnBnClickedOk)
 ON_WM_SIZE()
 ON_REGISTERED_MESSAGE(WMU_VPNCONNECTED, &CVpnDialup2Dlg::OnVpnConnected)
+ON_COMMAND(ID_POPUPMENU_EXIT, &CVpnDialup2Dlg::OnPopupmenuExit)
+ON_COMMAND(ID_POPUPMENU_MAINWINDOW, &CVpnDialup2Dlg::OnPopupmenuMainwindow)
+ON_COMMAND(ID_POPUPMENU_ABOUT, &CVpnDialup2Dlg::OnPopupmenuAbout)
 END_MESSAGE_MAP()
 
 
@@ -143,6 +146,8 @@ BOOL CVpnDialup2Dlg::OnInitDialog()
 	m_blog.SetURL(TEXT("http://www.cppblog.com/runsisi"));
 	m_blog.SetLinkCursor(AfxGetApp()->LoadCursor(IDC_CURSOR));
 	m_blog.CorrectLinkWidth();
+
+	m_popupMenu.LoadMenu(IDR_POPUPMENU);
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
@@ -255,10 +260,19 @@ LRESULT CVpnDialup2Dlg::OnDialupTray(WPARAM wParam, LPARAM lParam)
 {
 	if (lParam == WM_LBUTTONDOWN)
 	{
+		::Shell_NotifyIconW(NIM_DELETE, &g_notify);
 		ShowWindow(SW_SHOWNORMAL);
 		::SetWindowPos(this->m_hWnd, HWND_TOPMOST, 
 			0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
 	}
+	else if (lParam == WM_RBUTTONUP)
+	{
+		POINT pt = {0};
+		::GetCursorPos(&pt);
+		m_popupMenu.GetSubMenu(0)->TrackPopupMenu(
+			TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, this);
+	}
+
 	return 0;
 }
 void CVpnDialup2Dlg::OnBnClickedOk()
@@ -307,4 +321,28 @@ BOOL CAboutDlg::OnInitDialog()
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
+}
+
+void CVpnDialup2Dlg::OnPopupmenuExit()
+{
+	// TODO: Add your command handler code here
+	::Shell_NotifyIconW(NIM_DELETE, &g_notify);
+
+	OnOK();
+}
+
+void CVpnDialup2Dlg::OnPopupmenuMainwindow()
+{
+	// TODO: Add your command handler code here
+	::Shell_NotifyIconW(NIM_DELETE, &g_notify);
+	ShowWindow(SW_SHOWNORMAL);
+	::SetWindowPos(this->m_hWnd, HWND_TOPMOST, 
+		0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
+}
+
+void CVpnDialup2Dlg::OnPopupmenuAbout()
+{
+	// TODO: Add your command handler code here
+	CAboutDlg dlgAbout;
+	dlgAbout.DoModal();
 }
