@@ -97,6 +97,8 @@ ON_REGISTERED_MESSAGE(WMU_VPNCONNECTED, &CVpnDialup2Dlg::OnVpnConnected)
 ON_COMMAND(ID_POPUPMENU_EXIT, &CVpnDialup2Dlg::OnPopupmenuExit)
 ON_COMMAND(ID_POPUPMENU_MAINWINDOW, &CVpnDialup2Dlg::OnPopupmenuMainwindow)
 ON_COMMAND(ID_POPUPMENU_ABOUT, &CVpnDialup2Dlg::OnPopupmenuAbout)
+ON_WM_DRAWITEM()
+ON_WM_MEASUREITEM()
 END_MESSAGE_MAP()
 
 
@@ -146,6 +148,15 @@ BOOL CVpnDialup2Dlg::OnInitDialog()
 	m_blog.SetURL(TEXT("http://www.cppblog.com/runsisi"));
 	m_blog.SetLinkCursor(AfxGetApp()->LoadCursor(IDC_CURSOR));
 	m_blog.CorrectLinkWidth();
+
+	m_imageList.Create(24, 24, ILC_COLOR8 | ILC_MASK, 0, 0);
+	m_imageList.Add(AfxGetApp()->LoadIcon(IDI_ABOUT));
+	m_imageList.Add(AfxGetApp()->LoadIcon(IDI_SHOWMAINWINDOW));
+	m_imageList.Add(AfxGetApp()->LoadIcon(IDI_EXIT));
+	m_imageList.Add(AfxGetApp()->LoadIcon(IDI_ABOUT));
+	m_popupMenu.LoadMenu(IDR_POPUPMENU);
+	m_popupMenu.ChangeMenuItem(&m_popupMenu, TRUE);
+	m_popupMenu.SetMenuImageList(&m_imageList);
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
@@ -268,9 +279,13 @@ LRESULT CVpnDialup2Dlg::OnDialupTray(WPARAM wParam, LPARAM lParam)
 		SetForegroundWindow();
 		POINT pt = {0};
 		::GetCursorPos(&pt);
-		CMenu popupMenu;
-		popupMenu.LoadMenu(IDR_POPUPMENU);
-		popupMenu.GetSubMenu(0)->TrackPopupMenu(
+// 		CMenu popupMenu;
+// 		popupMenu.LoadMenu(IDR_POPUPMENU);
+// 		popupMenu.GetSubMenu(0)->TrackPopupMenu(
+// 			TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_TOPALIGN, 
+// 			pt.x, pt.y, this);
+		//m_popupMenu.LoadMenu(IDR_POPUPMENU);
+		m_popupMenu.GetSubMenu(0)->TrackPopupMenu(
 			TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_TOPALIGN, 
 			pt.x, pt.y, this);
 // 		popupMenu.GetSubMenu(0)->TrackPopupMenu(
@@ -307,6 +322,7 @@ LRESULT CVpnDialup2Dlg::OnVpnConnected(
 	if (wParam == 0)		//Failed.
 	{
 		GetDlgItem(IDC_STATUS)->SetWindowText(L"Canceled or Failed.");
+		GetDlgItem(IDC_BUTTON1)->EnableWindow(TRUE);
 	}
 	else if (wParam == 1)
 	{
@@ -350,4 +366,20 @@ void CVpnDialup2Dlg::OnPopupmenuAbout()
 	// TODO: Add your command handler code here
 	CAboutDlg dlgAbout;
 	dlgAbout.DoModal();
+}
+
+void CVpnDialup2Dlg::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct)
+{
+	// TODO: Add your message handler code here and/or call default
+	m_popupMenu.DrawItem(lpDrawItemStruct);
+
+	CDialog::OnDrawItem(nIDCtl, lpDrawItemStruct);
+}
+
+void CVpnDialup2Dlg::OnMeasureItem(int nIDCtl, LPMEASUREITEMSTRUCT lpMeasureItemStruct)
+{
+	// TODO: Add your message handler code here and/or call default
+	m_popupMenu.MeasureItem(lpMeasureItemStruct);
+
+	CDialog::OnMeasureItem(nIDCtl, lpMeasureItemStruct);
 }

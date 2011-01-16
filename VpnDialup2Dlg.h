@@ -4,6 +4,7 @@
 #pragma once
 #include "afxwin.h"
 #include "HyperLinkCtrl/HyperLinkCtrl.h"
+#include "CustomMenu/CustomMenu.h"
 
 // CVpnDialup2Dlg dialog
 class CVpnDialup2Dlg : public CDialog
@@ -42,8 +43,12 @@ public:
 	afx_msg LRESULT OnVpnConnected(WPARAM wParam, LPARAM lParam);
 private:
 	RUNSISI_HUST::CHyperLinkCtrl m_blog;
+	RUNSISI_HUST::CCustomMenu m_popupMenu;
+	CImageList m_imageList;
 public:
 	afx_msg void OnPopupmenuExit();
 	afx_msg void OnPopupmenuMainwindow();
 	afx_msg void OnPopupmenuAbout();
+	afx_msg void OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct);
+	afx_msg void OnMeasureItem(int nIDCtl, LPMEASUREITEMSTRUCT lpMeasureItemStruct);
 };

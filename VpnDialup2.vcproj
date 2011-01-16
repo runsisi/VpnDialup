@@ -266,11 +266,27 @@
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
 			<File
+				RelativePath=".\res\About.ico"
+				>
+			</File>
+			<File
 				RelativePath=".\HyperLinkCtrl\email.cur"
 				>
 			</File>
 			<File
+				RelativePath=".\res\Exit.ico"
+				>
+			</File>
+			<File
 				RelativePath=".\HyperLinkCtrl\hand.cur"
+				>
+			</File>
+			<File
+				RelativePath=".\res\MenuLeft.bmp"
+				>
+			</File>
+			<File
+				RelativePath=".\res\ShowMainWindow.ico"
 				>
 			</File>
 			<File
@@ -487,6 +503,34 @@
 			</File>
 			<File
 				RelativePath=".\HyperLinkCtrl\HyperLinkCtrl.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="CustomMenu"
+			>
+			<File
+				RelativePath=".\CustomMenu\CustomMenu.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\CustomMenu\CustomMenu.h"
 				>
 			</File>
 		</Filter>

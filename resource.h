@@ -9,6 +9,11 @@
 #define IDR_MAINFRAME                   128
 #define IDC_CURSOR                      131
 #define IDR_POPUPMENU                   132
+#define IDI_ABOUT                       134
+#define IDI_EXIT                        135
+#define IDI_SHOWMAINWINDOW              136
+#define IDB_BITMAP1                     137
+#define IDB_BITMAP_MENU_LEFT            137
 #define IDC_BUTTON1                     1000
 #define IDC_CHECK1                      1001
 #define IDC_STATUS                      1002
@@ -25,7 +30,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        133
+#define _APS_NEXT_RESOURCE_VALUE        138
 #define _APS_NEXT_COMMAND_VALUE         32777
 #define _APS_NEXT_CONTROL_VALUE         1005
 #define _APS_NEXT_SYMED_VALUE           101
