@@ -186,7 +186,7 @@ namespace RUNSISI_HUST
 		const wchar_t* wszPassword)
 	{
 		LONG lRet = ERROR_SUCCESS;
-
+		
 		try
 		{
 			RASDIALPARAMS dialParams = {0};

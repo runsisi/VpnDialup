@@ -218,9 +218,10 @@ struct param_t
 {
 	bool bQuiet;
 	HWND hMainWindow;
+	bool bFirstConnect;
 };
 
-param_t g_params = {0};
+param_t g_params = {false, 0, true};
 extern unsigned __stdcall VpnThreadProc(void* p);	//Parameter determine if we use
 																		//quiet dial mode.
 
@@ -321,8 +322,15 @@ LRESULT CVpnDialup2Dlg::OnVpnConnected(
 {
 	if (wParam == 0)		//Failed.
 	{
-		GetDlgItem(IDC_STATUS)->SetWindowText(L"Canceled or Failed.");
-		GetDlgItem(IDC_BUTTON1)->EnableWindow(TRUE);
+		if (lParam == 1460)
+		{
+			GetDlgItem(IDC_STATUS)->SetWindowText(L"U canceled:)");
+			GetDlgItem(IDC_BUTTON1)->EnableWindow(TRUE);
+		}
+		else
+		{
+			GetDlgItem(IDC_STATUS)->SetWindowText(L"Restart to try again.");
+		}
 	}
 	else if (wParam == 1)
 	{

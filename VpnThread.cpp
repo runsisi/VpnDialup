@@ -11,6 +11,7 @@ struct param_t
 {
 	bool bQuiet;
 	HWND hMainWindow;
+	bool bFirstConnect;
 };
 
 extern param_t g_params;
@@ -26,7 +27,9 @@ unsigned __stdcall VpnThreadProc(void* p)
 	{
 		RASENTRYW RasEntry = {0};
 
-		LONG lRet = DisableIpSec();
+		LONG lRet = ERROR_SUCCESS;
+
+		lRet = DisableIpSec();
 		if (lRet != ERROR_SUCCESS)
 		{
 			if (lRet != ERROR_ALREADY_EXISTS)
@@ -57,13 +60,13 @@ unsigned __stdcall VpnThreadProc(void* p)
 		{
 			throw CRunsisiExceptionW(L"Failed to create VPN entry, code: %d.", 
 				lRet);
-		}	
+		}
 
 		lRet = ConnectVpn(g_hRasConn, g_params.bQuiet);
 		if (lRet != ERROR_SUCCESS)
 		{
 			//Notify main window.
-			PostMessageW(g_params.hMainWindow, WMU_VPNCONNECTED, 0, 0);
+			PostMessageW(g_params.hMainWindow, WMU_VPNCONNECTED, 0, lRet);
 			throw CRunsisiExceptionW(L"Failed to connect VPN server, code: %d.", 
 				lRet);
 		}
